@@ -1,4 +1,5 @@
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import { PhotoCards } from "../PhotoCards/PhototCards";
 import { usePhotos } from "../PhotoContext/PhotoContext";
 import { Search } from "../Search/Search";
@@ -6,6 +7,7 @@ import { Filter } from "../Filter/Filter";
 import { AddNewPhoto } from "../AddNewPhoto/AddNewPhoto";
 import { Lightbox } from "../Lightbox/Lightbox";
 import { EditPhoto } from "../Edit_Photo/EditPhoto";
+import { Pagination } from "../Pagination/Pagination";
 
 export const Gallery = () => {
   const { loading, photos, error } = usePhotos();
@@ -16,6 +18,10 @@ export const Gallery = () => {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
 
   const [photoToEdit, setPhotoToEdit] = useState(null);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const photosPerPage = 12;
 
   const albumIds = [
     ...new Set(
@@ -36,6 +42,31 @@ export const Gallery = () => {
 
     return matchesSearch && matchesAlbum;
   });
+
+  
+  // PAGINATION LOGIC
+  const totalPages = Math.ceil(
+    filteredPhotos.length / photosPerPage
+  );
+
+  const startIndex = (currentPage - 1) * photosPerPage;
+
+  const currentPhotos = filteredPhotos.slice(
+    startIndex,
+    startIndex + photosPerPage
+  );
+
+  // Reset to first page when searching or filtering
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, selectedAlbum]);
+
+  // Handle page changes when photos are deleted
+  useEffect(() => {
+    if (totalPages > 0 && currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [currentPage, totalPages]);
 
   if (loading) {
     return <h2 className="loading-message">Loading photos...</h2>;
@@ -69,16 +100,24 @@ export const Gallery = () => {
       ) : filteredPhotos.length === 0 ? (
         <h2 className="no-results">No photos found.</h2>
       ) : (
-        <div className="grid-photos">
-          {filteredPhotos.map((photo) => (
-            <PhotoCards
-              key={photo.id}
-              photo={photo}
-              onView={setSelectedPhoto}
-              onEdit={setPhotoToEdit}
-            />
-          ))}
-        </div>
+        <>
+          <div className="grid-photos" key={currentPage}>
+            {currentPhotos.map((photo) => (
+              <PhotoCards
+                key={photo.id}
+                photo={photo}
+                onView={setSelectedPhoto}
+                onEdit={setPhotoToEdit}
+              />
+            ))}
+          </div>
+
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        </>
       )}
 
       {selectedPhoto && (
