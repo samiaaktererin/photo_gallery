@@ -1,21 +1,37 @@
 import { DeletePhoto } from "../DeletePhoto/DeletePhoto";
-import { EditPhoto } from "../Edit_Photo/EditPhoto";
 
-export const PhotoCards = ({ photo }) => {
+export const PhotoCards = ({ photo, onView, onEdit }) => {
   return (
     <div className="photos-cards">
       <div className="photos">
-        <img
-          src={photo.thumbnailUrl}
-          alt={photo.title}
-          loading="lazy"
-        />
-        <h3>Album Id:{photo.albumId}</h3>
+        <button
+          type="button"
+          className="photos-image-btn"
+          onClick={() => onView(photo)}
+          aria-label={`Open ${photo.title} in full view`}
+        >
+          <img
+            src={photo.thumbnailUrl}
+            alt={photo.title}
+            loading="lazy"
+          />
+        </button>
+
+        {/* <h3>Album ID: {photo.albumId}</h3> */}
         <h3>{photo.title}</h3>
       </div>
 
-      <EditPhoto photo={photo} />
-      <DeletePhoto photo={photo} />
+      <div className="photo-card-actions">
+        <button
+          type="button"
+          className="edit-btn"
+          onClick={() => onEdit(photo)}
+        >
+          Edit
+        </button>
+
+        <DeletePhoto photo={photo} />
+      </div>
     </div>
   );
 };

@@ -8,7 +8,7 @@ export const Filter = ({
       <label htmlFor="album-filter">Filter by Album:</label>
 
       <select
-        id="album-filter"
+        id="filter-select"
         value={selectedAlbum}
         onChange={(e) => setSelectedAlbum(e.target.value)}
       >

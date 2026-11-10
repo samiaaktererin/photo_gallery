@@ -3,7 +3,9 @@ import { PhotoCards } from "../PhotoCards/PhototCards";
 import { usePhotos } from "../PhotoContext/PhotoContext";
 import { Search } from "../Search/Search";
 import { Filter } from "../Filter/Filter";
-import { AddPhoto } from "../AddNewPhoto/AddNewPhoto";
+import { AddNewPhoto } from "../AddNewPhoto/AddNewPhoto";
+import { Lightbox } from "../Lightbox/Lightbox";
+import { EditPhoto } from "../Edit_Photo/EditPhoto";
 
 export const Gallery = () => {
   const { loading, photos, error } = usePhotos();
@@ -11,11 +13,15 @@ export const Gallery = () => {
   const [search, setSearch] = useState("");
   const [selectedAlbum, setSelectedAlbum] = useState("all");
 
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
+
+  const [photoToEdit, setPhotoToEdit] = useState(null);
+
   const albumIds = [
     ...new Set(
       photos
         .map((photo) => photo.albumId)
-        .filter((albumId) => albumId !== undefined && albumId !== null)
+        .filter((id) => id !== undefined && id !== null)
     ),
   ].sort((a, b) => a - b);
 
@@ -44,14 +50,18 @@ export const Gallery = () => {
       <div className="gallery-header">
         <h2>Showing {filteredPhotos.length} photos</h2>
 
-        <Search search={search} setSearch={setSearch} />
+        <Search
+          search={search}
+          setSearch={setSearch}
+        />
 
         <Filter
           albumIds={albumIds}
           selectedAlbum={selectedAlbum}
           setSelectedAlbum={setSelectedAlbum}
         />
-        <AddPhoto/>
+
+        <AddNewPhoto />
       </div>
 
       {photos.length === 0 ? (
@@ -61,9 +71,29 @@ export const Gallery = () => {
       ) : (
         <div className="grid-photos">
           {filteredPhotos.map((photo) => (
-            <PhotoCards key={photo.id} photo={photo} />
+            <PhotoCards
+              key={photo.id}
+              photo={photo}
+              onView={setSelectedPhoto}
+              onEdit={setPhotoToEdit}
+            />
           ))}
         </div>
+      )}
+
+      {selectedPhoto && (
+        <Lightbox
+          photo={selectedPhoto}
+          onClose={() => setSelectedPhoto(null)}
+        />
+      )}
+
+      {photoToEdit && (
+        <EditPhoto
+          key={photoToEdit.id}
+          photo={photoToEdit}
+          onClose={() => setPhotoToEdit(null)}
+        />
       )}
     </div>
   );

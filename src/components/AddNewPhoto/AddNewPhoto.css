@@ -1,0 +1,181 @@
+.add-photo-container {
+  display: inline-flex;
+}
+
+.add-photo-button {
+  padding: 12px 22px;
+  border: none;
+  border-radius: 8px;
+  background: #a65d43;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.add-photo-button:hover {
+  background: #874832;
+  transform: translateY(-2px);
+}
+
+.add-photo-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(25, 22, 20, 0.7);
+  backdrop-filter: blur(5px);
+}
+
+.add-photo-form {
+  width: min(700px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 30px;
+  border-radius: 16px;
+  background: #fffdf9;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.add-photo-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 25px;
+}
+
+.add-photo-form-header h2 {
+  margin: 8px 0;
+  color: #302820;
+  font-size: 28px;
+}
+
+.add-photo-form-header p {
+  color: #77716b;
+  font-size: 14px;
+}
+
+.add-photo-subtitle {
+  color: #a65d43;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.add-photo-close {
+  border: none;
+  background: transparent;
+  color: #555;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.add-photo-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.add-photo-field label,
+.add-photo-preview label {
+  color: #302820;
+  font-weight: 600;
+}
+
+.add-photo-field input,
+.add-photo-field select {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #ded6cd;
+  border-radius: 8px;
+  outline: none;
+  background: white;
+  font-size: 14px;
+}
+
+.add-photo-field input:focus,
+.add-photo-field select:focus {
+  border-color: #a65d43;
+}
+
+.add-photo-field small {
+  color: #89817a;
+}
+
+.add-photo-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.add-photo-preview img,
+.add-photo-preview-placeholder {
+  width: 100%;
+  height: 220px;
+  border-radius: 10px;
+  object-fit: contain;
+  background: #f1ede7;
+}
+
+.add-photo-preview-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  color: #89817a;
+  text-align: center;
+}
+
+.add-photo-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.add-photo-cancel,
+.add-photo-submit {
+  padding: 12px 22px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.add-photo-cancel {
+  background: #eee8e1;
+  color: #51483f;
+}
+
+.add-photo-submit {
+  background: #a65d43;
+  color: white;
+}
+
+.add-photo-submit:hover {
+  background: #874832;
+}
+
+@media (max-width: 600px) {
+  .add-photo-form {
+    padding: 20px;
+  }
+
+  .add-photo-form-header h2 {
+    font-size: 22px;
+  }
+
+  .add-photo-actions {
+    flex-direction: column-reverse;
+  }
+
+  .add-photo-actions button {
+    width: 100%;
+  }
+}

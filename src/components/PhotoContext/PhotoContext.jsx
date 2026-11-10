@@ -1,4 +1,9 @@
-import { useContext, createContext, useEffect, useState } from "react";
+import {
+  useContext,
+  createContext,
+  useEffect,
+  useState,
+} from "react";
 
 const PhotoContext = createContext();
 
@@ -33,31 +38,35 @@ export const PhotoProvider = ({ children }) => {
     fetchPhotos();
   }, []);
 
+  // Add photo
+  const addPhoto = (newPhoto) => {
+    const photoWithId = {
+      ...newPhoto,
+      id: Date.now(),
+    };
+
+    setPhotos((previousPhotos) => [
+      photoWithId,
+      ...previousPhotos,
+    ]);
+  };
+
+  // Edit photo
   const updatePhoto = (id, newTitle) => {
-    setPhotos((prevPhotos) =>
-      prevPhotos.map((photo) =>
+    setPhotos((previousPhotos) =>
+      previousPhotos.map((photo) =>
         photo.id === id
-          ? {
-              ...photo,
-              title: newTitle,
-            }
-          : photo,
-      ),
+          ? { ...photo, title: newTitle }
+          : photo
+      )
     );
   };
 
+  // Delete photo
   const deletePhoto = (id) => {
-    setPhotos((prevPhotos) => prevPhotos.filter((photo) => photo.id !== id));
-  };
-
-  const addPhoto = (newPhoto) => {
-    const photoToAdd = {
-      ...newPhoto,
-      id: Date.now(),
-      albumId: Number(newPhoto.albumId),
-    };
-
-    setPhotos((previousPhotos) => [photoToAdd, ...previousPhotos]);
+    setPhotos((previousPhotos) =>
+      previousPhotos.filter((photo) => photo.id !== id)
+    );
   };
 
   return (
@@ -66,9 +75,9 @@ export const PhotoProvider = ({ children }) => {
         photos,
         loading,
         error,
+        addPhoto,
         updatePhoto,
         deletePhoto,
-        addPhoto,
       }}
     >
       {children}
