@@ -44,7 +44,7 @@ export const Gallery = () => {
   });
 
   
-  // PAGINATION LOGIC
+
   const totalPages = Math.ceil(
     filteredPhotos.length / photosPerPage
   );
@@ -56,12 +56,12 @@ export const Gallery = () => {
     startIndex + photosPerPage
   );
 
-  // Reset to first page when searching or filtering
+ 
   useEffect(() => {
     setCurrentPage(1);
   }, [search, selectedAlbum]);
 
-  // Handle page changes when photos are deleted
+
   useEffect(() => {
     if (totalPages > 0 && currentPage > totalPages) {
       setCurrentPage(totalPages);
